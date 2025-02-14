@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+
 import { useState, useEffect } from "react";
 
 export default function MenuMobile() {
@@ -33,8 +34,8 @@ export default function MenuMobile() {
   }, [mobileIsOn]);
 
   const menuLinks = [
-    { nome: "Projetos", href: "/projetos" },
-    { nome: "Blog", href: "/blog" },
+    { nome: "Projetos", href: "/projetos", active: false },
+    { nome: "Blog", href: "/blog", active: false },
     { nome: "Contato", href: "/contato" },
   ];
 
@@ -52,11 +53,13 @@ export default function MenuMobile() {
             {menuLinks.map((item, index) => (
               <li
                 key={index}
-                className={`relative flex items-center ${linkAtivo === item.href && item.nome !== "Contato" ? "before:flex before:w-2 before:bg-[#8776F9] before:animate-pulse before:h-2 before:absolute before:top-3 before:left-[-10px] before:rounded-full" : ""}`}
+                className={`relative flex items-center ${linkAtivo === item.href && item.nome !== "Contato" ? "before:flex before:w-2  before:bg-[#8776F9] before:animate-pulse before:h-2 before:absolute before:top-3 before:left-[-10px] before:rounded-full" : "bg-red-700"}`}
               >
                 <Link
                   scroll={true}
-                  onClick={() => setMobile(false)}
+                  onClick={() => {
+                    setMobile(false);
+                  }}
                   href={item.href}
                   className={`${item.nome === "Contato" ? "bg-[#6F5CF3] rounded-md py-2 px-4 text-white shadow-lg shadow-[#9d90f0] hover:bg-[#8776f9]" : "hover:text-[#4331b8]"} transition-all text-[25px]`}
                 >
@@ -77,6 +80,7 @@ export default function MenuMobile() {
               className={`relative ${linkAtivo === item.href && item.nome !== "Contato" ? "before:block before:w-2 before:bg-[#8776F9] before:animate-pulse before:h-2 before:absolute before:top-5 before:left-[4.5px] before:rounded-full" : ""}`}
             >
               <Link
+                onClick={() => setLinkAtivo(item.href)}
                 href={item.href}
                 className={`${item.nome === "Contato" ? "bg-[#6F5CF3] rounded-md py-2 px-4 text-white shadow-lg shadow-[#9d90f0] hover:bg-[#8776f9] ml-3" : "hover:text-[#4331b8] hover:bg-[#79628c1f] transition-all py-3 px-4 rounded-lg"} relative flex items-center transition-all`}
               >
