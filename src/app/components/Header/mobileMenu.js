@@ -1,16 +1,15 @@
 "use client";
 import Link from "next/link";
-
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation"; // Importando usePathname
 
 export default function MenuMobile() {
-  const [linkAtivo, setLinkAtivo] = useState("");
+  const pathname = usePathname(); // Obtém a rota atual
   const [mobileIsOn, setMobile] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
-    setLinkAtivo(window.location.pathname);
   }, []);
 
   useEffect(() => {
@@ -22,8 +21,8 @@ export default function MenuMobile() {
 
     const handleResize = () => {
       if (window.innerWidth >= 768 && mobileIsOn) {
-        setMobile(false); // Fecha o menu automaticamente
-        document.body.style.overflow = ""; // Restaura o scroll
+        setMobile(false);
+        document.body.style.overflow = "";
       }
     };
 
@@ -34,8 +33,8 @@ export default function MenuMobile() {
   }, [mobileIsOn]);
 
   const menuLinks = [
-    { nome: "Projetos", href: "/projetos", active: false },
-    { nome: "Blog", href: "/blog", active: false },
+    { nome: "Projetos", href: "/projetos" },
+    { nome: "Blog", href: "/blog" },
     { nome: "Contato", href: "/contato" },
   ];
 
@@ -53,15 +52,21 @@ export default function MenuMobile() {
             {menuLinks.map((item, index) => (
               <li
                 key={index}
-                className={`relative flex items-center ${linkAtivo === item.href && item.nome !== "Contato" ? "before:flex before:w-2  before:bg-[#8776F9] before:animate-pulse before:h-2 before:absolute before:top-3 before:left-[-10px] before:rounded-full" : "bg-red-700"}`}
+                className={`relative flex items-center ${
+                  pathname === item.href && item.nome !== "Contato"
+                    ? "before:flex before:w-2 before:bg-[#8776F9] before:animate-pulse before:h-2 before:absolute before:top-3 before:left-[-10px] before:rounded-full"
+                    : ""
+                }`}
               >
                 <Link
                   scroll={true}
-                  onClick={() => {
-                    setMobile(false);
-                  }}
+                  onClick={() => setMobile(false)}
                   href={item.href}
-                  className={`${item.nome === "Contato" ? "bg-[#6F5CF3] rounded-md py-2 px-4 text-white shadow-lg shadow-[#9d90f0] hover:bg-[#8776f9]" : "hover:text-[#4331b8]"} transition-all text-[25px]`}
+                  className={`${
+                    item.nome === "Contato"
+                      ? "bg-[#6F5CF3] rounded-md py-2 px-4 text-white shadow-lg shadow-[#9d90f0] hover:bg-[#8776f9]"
+                      : "hover:text-[#4331b8]"
+                  } transition-all text-[25px]`}
                 >
                   {item.nome}
                 </Link>
@@ -77,12 +82,19 @@ export default function MenuMobile() {
           {menuLinks.map((item, index) => (
             <li
               key={index}
-              className={`relative ${linkAtivo === item.href && item.nome !== "Contato" ? "before:block before:w-2 before:bg-[#8776F9] before:animate-pulse before:h-2 before:absolute before:top-5 before:left-[4.5px] before:rounded-full" : ""}`}
+              className={`relative ${
+                pathname === item.href && item.nome !== "Contato"
+                  ? "before:block before:w-2 before:bg-[#8776F9] before:animate-pulse before:h-2 before:absolute before:top-5 before:left-[4.5px] before:rounded-full"
+                  : ""
+              }`}
             >
               <Link
-                onClick={() => setLinkAtivo(item.href)}
                 href={item.href}
-                className={`${item.nome === "Contato" ? "bg-[#6F5CF3] rounded-md py-2 px-4 text-white shadow-lg shadow-[#9d90f0] hover:bg-[#8776f9] ml-3" : "hover:text-[#4331b8] hover:bg-[#79628c1f] transition-all py-3 px-4 rounded-lg"} relative flex items-center transition-all`}
+                className={`${
+                  item.nome === "Contato"
+                    ? "bg-[#6F5CF3] rounded-md py-2 px-4 text-white shadow-lg shadow-[#9d90f0] hover:bg-[#8776f9] ml-3"
+                    : "hover:text-[#4331b8] hover:bg-[#79628c1f] transition-all py-3 px-4 rounded-lg"
+                } relative flex items-center transition-all`}
               >
                 {item.nome}
               </Link>
@@ -98,13 +110,19 @@ export default function MenuMobile() {
         className="z-50 md:hidden p-2 flex flex-col justify-center items-center"
       >
         <span
-          className={`block h-[3px] w-7 bg-[#6F5CF3] ${mobileIsOn ? "rotate-45" : ""}`}
+          className={`block h-[3px] w-7 bg-[#6F5CF3] ${
+            mobileIsOn ? "rotate-45" : ""
+          }`}
         />
         <span
-          className={`block h-[3px] w-7 my-1 bg-[#6F5CF3] ${mobileIsOn ? "opacity-0" : "opacity-100"}`}
+          className={`block h-[3px] w-7 my-1 bg-[#6F5CF3] ${
+            mobileIsOn ? "opacity-0" : "opacity-100"
+          }`}
         />
         <span
-          className={`block h-[3px] w-7 bg-[#6F5CF3] ${mobileIsOn ? "-rotate-45" : ""}`}
+          className={`block h-[3px] w-7 bg-[#6F5CF3] ${
+            mobileIsOn ? "-rotate-45" : ""
+          }`}
         />
       </button>
     </>
